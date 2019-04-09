@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="/app2.css">
+  </head>
+  <body class="bg-lblue">
+  <div class="ui-item-one">						
+    <div class="wrapper">
+	  <input type="text" id="name" class="input-block-level" placeholder="Введите диапазон чисел">
+	  <button type="button" id="start" class="btn btn-large btn-primary">Найти простые числа</button>
+	 </div>
+	 
+	</div>
+	<div id="content"></div>
+	<script src="/socket.io.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" ></script>
+  </body>
+<script>
+var socket = io();
+document.getElementById('start').addEventListener('click', function() {
+	document.getElementById('content').innerHTML="";
+    socket.emit('number', document.getElementById('name').value);
+	
+});
+
+socket.on('number', function(number) {
+	
+	document.getElementById('content').innerHTML += "<div class='ui-item-two'>Количество простых чисел:"+number.length+"</div>";
+	document.getElementById('content').innerHTML += "<div class='ui-item-two'>";
+	var inc=0;
+	var trcount=0;
+	for(var i=0; i<number.length; i++) {		
+		document.getElementsByClassName('ui-item-two')[1].innerHTML += number[i]+" | ";
+		inc+=1;
+		if (inc==5) {
+			inc=0;
+			trcount+=1;
+		}		
+    }  
+}); 	
+    </script>
+<html>
